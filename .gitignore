@@ -1,5 +1,6 @@
 .idea/
-med-web/target/
-med-common/med.common.iml
-med-core/med.core/med.core.iml
+target
+med.common/med.common.iml
+med.web/med.web.iml
 med-parent.iml
+med.core/med.core.iml
