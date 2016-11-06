@@ -20,16 +20,16 @@ public class UserDao {
 
 
     //根据用户名和密码匹配用户数  1表示正确，0表示错误
-    public int getMatchCount(String userName,String password){
+    public int getMatchCount(String userName, String password) {
         String sqlStr = " SELECT count(*) FROM t_user "
-                    + " WHERE user_name = ? and password = ?";
-        return jdbcTemplate.queryForList(sqlStr,new Object[]{userName,password}).size();
+                + " WHERE user_name =? and password=? ";
+        return jdbcTemplate.queryForObject(sqlStr, new Object[] { userName, password },Integer.class);
     }
 
     //根据用户名获取User对象
     public User findUserbyUserName(String userName){
         String sqlStr = " SELECT user_id,user_name,credits "
-                    +" FROM t_user WHERE = user_name = ?";
+                    +" FROM t_user WHERE user_name = ?";
         final User user = new User();
         jdbcTemplate.query(sqlStr, new Object[]{userName},
                 new RowCallbackHandler() {

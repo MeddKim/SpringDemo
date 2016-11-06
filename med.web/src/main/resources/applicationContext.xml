@@ -15,32 +15,48 @@
     <beans>
         <!--扫描类包，将标注Spring注解的类自动转化为Bean，同时完成Bean注入-->
         <context:component-scan base-package="com.med.web.dao"/>
+        <context:component-scan base-package="com.med.web.service"/>
+
+
+        <!--配置事物管理器-->
+        <!--<bean id="transactionManager"-->
+        <!--class="org.springframework.jdbc.datasource.DataSourceTransactionManager"-->
+        <!--p:dataSource-ref="dataSource"/>-->
+
+        <!--&lt;!&ndash;通过AOP配置提供事物增强，让service包下的所有bean的所有方法拥有事物&ndash;&gt;-->
+        <!--<aop:config proxy-target-class="true">-->
+        <!--<aop:pointcut id="serviceMethod"-->
+        <!--expression="execution(* com.med.web.service..*(..))"/>-->
+        <!--<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>-->
+        <!--</aop:config>-->
+        <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+        <!--<tx:method name="*"/>-->
+        <!--</tx:attributes>-->
+        <!--</tx:advice>-->
+
 
         <!-- 读取mysql jdbc的配置-->
         <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-            <property name="location" value="classpath:jdbc.properties" />
+            <property name="locations" value="classpath:jdbc.properties" />
         </bean>
 
-        <!--&lt;!&ndash;定义一个使用DBCP实现的数据源&ndash;&gt;-->
-        <!--<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">-->
-            <!--destroy-method="close"-->
-            <!--p:driverClassName="com.mysql.jdbc.Driver"-->
-            <!--p:url="jdbc:mysql://42.96.144.163:3306/sampledb"-->
-            <!--p:username="root"-->
-            <!--p:password="meddkim"-->
-        <!--</bean>-->
 
-        <!--&lt;!&ndash;定义jdbc模板Bean&ndash;&gt;-->
-        <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">-->
-            <!--p:dataSource-ref="dataSource"-->
-        <!--</bean>-->
         <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-            destroy-method="close"
-            p:driverClassName="com.mysql.jdbc.Driver"
-            p:url="jdbc:mysql://42.96.144.163:3306/sampledb"
-            p:username="root"
-            p:password="meddkim"
-        />
+              destroy-method="close">
+            <property name="driverClassName" value="${jdbc.driverClassName}" />
+            <property name="url" value="${jdbc.url}" />
+            <property name="username" value="${jdbc.username}" />
+            <property name="password" value="${jdbc.password}" />
+            <!-- 连接初始值，连接池启动时创建的连接数量的初始值  默认值是0 -->
+            <property name="initialSize" value="${jdbc.initialSize}" />
+            <!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请  默认值是0 -->
+            <property name="minIdle" value="${jdbc.minIdle}" />
+            <!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 ，0时无限制  默认值是8 -->
+            <property name="maxIdle" value="${jdbc.maxIdle}" />
+            <property name="maxTotal" value="${jdbc.maxTotal}"/>
+            <property name="maxWaitMillis" value="${jdbc.maxWaitMillis}"/>
+        </bean>
 
         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
               p:dataSource-ref="dataSource"
