@@ -9,4 +9,26 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
+  <!--从类路径下加载Spring配置文件-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+
+  <!--负责启动Spring 容器的监听器，它将引用上面获取到的Spring配置文件地址-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextCleanupListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>sprinmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>sprinmvc</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+
 </web-app>
