@@ -12,17 +12,23 @@
   <!--从类路径下加载Spring配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
+    <param-value>classpath*:applicationContext.xml</param-value>
+    <!--<param-value>/WEB-INF/classes/applicationContext.xml</param-value>-->
   </context-param>
 
   <!--负责启动Spring 容器的监听器，它将引用上面获取到的Spring配置文件地址-->
   <listener>
-    <listener-class>org.springframework.web.context.ContextCleanupListener</listener-class>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
   <servlet>
     <servlet-name>sprinmvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <!--<param-value>/WEB-INF/classes/springmvc-servlet.xml</param-value>-->
+      <param-value>classpath*:springmvc-servlet.xml</param-value>
+    </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
   
