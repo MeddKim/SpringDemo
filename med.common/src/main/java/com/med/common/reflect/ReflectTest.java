@@ -25,7 +25,7 @@ public class ReflectTest {
         setColor.invoke(car,"黑色");
         Method setMaxSpeed = clazz.getDeclaredMethod("setMaxSpeed",int.class);
         setMaxSpeed.invoke(car,200);
-
+        
         return car;
     }
 
