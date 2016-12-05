@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.1.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+
+
+    <bean id="car1" class="com.med.web.study.bean.Car"
+        p:brand = "红旗CA72"
+        p:color="黑色"
+        p:maxSpeed="200" />
+
+
+    <bean id="car" class="com.med.web.study.bean.Car">
+        <!--
+            <property>标签定义的属性名和Bean实现类的Setter方法要满足Sun JavaBean规范：xxx属性必须对应setXxx()方法
+            特殊情况以大写开头，要满足：变量的前两个大写字母要么全部大写，要么全部小写
+        -->
+        <property name="maxSpeed">
+            <value>200</value>
+        </property>
+        <property name="brand">
+            <value>红旗CA72</value>
+        </property>
+        <property name="color">
+            <value>黑色</value>
+        </property>
+    </bean>
+
+    <!--通过构造函数注入Car-->
+    <bean id="car2" class="com.med.web.study.bean.Car">
+        <constructor-arg type="java.lang.String" index="0">
+            <value>红色</value>
+        </constructor-arg>
+        <constructor-arg type="java.lang.String" index="1">
+            <!--<value>红旗CA72</value>-->
+            <value><![CDATA[红旗&CA72]]></value>
+        </constructor-arg>
+        <constructor-arg type="int" index="2">
+            <value>200</value>
+        </constructor-arg>
+    </bean>
+
+
+    <!--通过工厂注入-->
+    <bean id="carFactory" class="com.med.web.study.factory.CarFactory"/>
+    <bean id="car3" factory-bean="carFactory" factory-method="createHongQiCar"/>
+
+    <bean id="boss" class="com.med.web.study.bean.Boss">
+        <property name="car">
+            <ref bean="car"></ref>
+        </property>
+    </bean>
+
+    <!--内部bean-->
+    <bean id="boss1" class="com.med.web.study.bean.Boss">
+        <property name="car">
+            <bean class="com.med.web.study.bean.Car">
+                <property name="brand" value="红旗"/>
+                <property name="color" value="红"/>
+                <property name="maxSpeed" value="4"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--list注入-->
+    <bean id="boss3" class="com.med.web.study.bean.Boss">
+        <property name="favorites">
+            <list> <!--java.util.Set采用<set>标签-->
+                <value>看报</value>
+                <value>赛车</value>
+                <value>高尔夫</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--map注入-->
+    <bean id="boss4" class="com.med.web.study.bean.Boss">
+        <property name="jobs">
+            <map>
+                <entry>
+                    <key><value>AM</value></key>
+                    <value>回见客户</value>
+                </entry>
+                <entry>
+                    <key><value>PM</value></key>
+                    <value>公司内部会议</value>
+                </entry>
+                <!--键值是对象
+                <entry>
+                    <key><ref bean="keyBean" /></key>
+                    <ref bean="valueBean"/>
+                </entry>
+                -->
+            </map>
+        </property>
+    </bean>
+
+    <!--properties配置,合并-->
+    <bean id="boss5" class="com.med.web.study.bean.Boss" parent="boss4">
+        <property name="mails">
+            <props>
+                <prop key="jobMail">john-office@jamxin.com</prop>
+                <prop key="lifeMail">john-office@jamxin.com</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--配置List类型的Bean-->
+    <util:list id="favoriteList1" list-class="java.util.LinkedList">
+        <value>看报</value>
+        <value>赛车</value>
+    </util:list>
+
+    <!--继承-->
+    <bean id="abstractCar" class="com.med.web.study.bean.Car"
+        p:brand="红旗" p:maxSpeed="200" p:color="黑色" abstract="true"/>
+    <bean id="car11" parent="abstractCar" p:color="白色"/>
+    <bean id="car12" parent="abstractCar" p:color="红色"/>
+
+    <!--整合多个配置文件-->
+    <!--<import resource="classpath*:application.xml"></import>-->
+
+
+</beans>
