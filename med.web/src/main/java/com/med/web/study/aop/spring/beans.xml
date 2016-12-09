@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.1.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+
+
+    <!--AOP配置-->
+    <bean id="greetingBefore" class="com.med.web.study.aop.spring.GreetingBeforeAdvice" />
+    <bean id="target" class="com.med.web.study.aop.spring.NaiveWaiter" />
+    <!-- proxyInterfaces 指定代理的接口，多个接口使用<list>元素-->
+    <!-- interceptorNames 指定使用增强-->
+    <!-- target-ref 指定对那个Bean进行代理-->
+    <bean id="waiter" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:proxyInterfaces="com.med.web.study.aop.spring.Waiter"
+          p:interceptorNames="greetingBefore"
+          p:target-ref="target"
+    />
+    <!--ProxyFactoryBean
+        target：代理的目标对象
+        proxyInterfaces
+        interceptorNames:需要织入目标对象的Bean（）列表
+        singleton:返回的代理是否为单例
+        optimize：为true时，强制使用CGlib代理，对于singleton代理，推荐使用CGLib，对于其他作用域的代理，最好使用JDK代理，
+                  CGlib创建代理慢，运行效率高，JDK代理相反
+        proxyTargetClass:为true使用CGlib代理
+    -->
+    <bean id="greetingAfter" class="com.med.web.study.aop.spring.GreetingAfterAdvice" />
+    <bean id="waiter1" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:proxyInterfaces="com.med.web.study.aop.spring.Waiter"
+          p:interceptorNames="greetingBefore,greetingAfter"
+          p:target-ref="target"
+    />
+
+    <bean id="greetingAround" class="com.med.web.study.aop.spring.GreetingInterceptor" />
+    <bean id="waiter2" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:proxyInterfaces="com.med.web.study.aop.spring.Waiter"
+          p:interceptorNames="greetingAround"
+          p:target-ref="target"
+    />
+
+    <bean id="transactionManager" class="com.med.web.study.aop.spring.TransactionManager"/>
+    <bean id="ForumServiceTarget" class="com.med.web.study.aop.spring.ForumServiceDemo"/>
+    <bean id="forumService" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interceptorNames="transactionManager"
+          p:target-ref="target"
+          p:proxyTargetClass="true"
+    />
+</beans>
