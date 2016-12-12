@@ -18,10 +18,11 @@
         <context:component-scan base-package="com.med.web.service"/>
 
         <!-- 读取mysql jdbc的配置-->
+        <!--<context:property-placeholder location="classpath:jdbc.properties"/>   也能获取属性文件-->
         <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
             <property name="locations" value="classpath:jdbc.properties" />
         </bean>
-        <!--  配置数据源  -->
+        <!--  配置DBCP2数据源  -->
         <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
               destroy-method="close">
             <property name="driverClassName" value="${jdbc.driverClassName}" />
@@ -37,6 +38,15 @@
             <property name="maxTotal" value="${jdbc.maxTotal}"/>
             <property name="maxWaitMillis" value="${jdbc.maxWaitMillis}"/>
         </bean>
+
+        <!--C3P0数据源-->
+        <bean id="C3P0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+            p:driverClass="${jdbc.driverClassName}"
+            p:jdbcUrl="${jdbc.url}"
+            p:user="${jdbc.username}"
+            p:password="${jdbc.password}"
+            />
+
         <!--  配置Jdbc模板   -->
         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"/>
         <!--  配置事务管理器  -->
