@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace指明了映射所在的命名空间，每个具体的映射项都有一个id，
+可以通过命名空间和映射项的id定位到具体的映射项如
+
+User user =(User)session.selectOne( "com.med.web,domain.User //命名空间
+             .getUser" , 1)       //映射项id
+-->
+<mapper namespace="com.med.web.domain.User">
+    <!--
+        resultType,parameterType指定出入参数类型，可以是权限定名的类，可以是<typeAlias>定义的类的别名
+        如果是基础类型名，可使用 int,long,string
+    -->
+    <select id="getUser" resultType="User" parameterType="int">
+        select * from Blog where id = #{id}
+    </select>
+</mapper>
