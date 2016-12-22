@@ -51,6 +51,7 @@
         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"/>
         <!--  配置事务管理器  -->
         <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" p:dataSource-ref="dataSource"/>
+
         <!--  通过AOP配置提供事务增强，让service包下所有Bean的所有方法拥有事务  -->
         <aop:config proxy-target-class="true">
             <aop:pointcut id="serviceMethod" expression=" execution(* com.med.web.service..*(..))"/>
@@ -62,4 +63,20 @@
             </tx:attributes>
         </tx:advice>
 
+        <!-- myBatis -->
+        <!--<bean id="sqlSessionFactory"-->
+            <!--class="org.mybatis.spring.SqlSessionFactoryBean"-->
+            <!--p:dataSource-ref="dataSource"-->
+            <!--p:configLocation="classpath:myBatisConfig.xml"/>-->
+
+        <!-- myBatis -->
+        <bean id="sqlSessionFactory"
+              class="org.mybatis.spring.SqlSessionFactoryBean"
+              p:dataSource-ref="dataSource"
+              p:configLocation="classpath:myBatisConfig.xml"
+              p:mapperLocations="classpath:com/med/web/domain/*.xml"/>
+
+        <bean class="org.mybatis.spring.SqlSessionTemplate">
+            <constructor-arg ref="sqlSessionFactory"/>
+        </bean>
 </beans>

@@ -12,7 +12,7 @@ User user =(User)session.selectOne( "com.med.web,domain.User //命名空间
 <mapper namespace="com.med.web.domain.User">
     <!--
         resultType,parameterType指定出入参数类型，可以是权限定名的类，可以是<typeAlias>定义的类的别名
-        如果是基础类型名，可使用 int,long,string
+        如果是基础类型名，可使用 int,long,string等基础类型名
     -->
     <select id="getUser" resultType="User" parameterType="int">
         select * from Blog where id = #{id}
