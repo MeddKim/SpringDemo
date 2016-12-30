@@ -18,7 +18,7 @@
             <span th:text="${singlePerson.name}"></span>
         </div>
 
-        <div th:if="{not #lists.isEmpty(AuthorList)}">
+        <div th:if="${not #lists.isEmpty(AuthorList)}">
             <div class="panel panel primary">
                 <h3 class="panel-title">列表</h3>
             </div>
@@ -27,7 +27,7 @@
                     <li class="list-group-item" th:each="author:${AuthorList}">
                         <span th:text=""${author.name}"></span>
                         <span th:text=""${author.age}"></span>
-                        <button class="btn" th:onclick="'getName(\''+${author.name}+'\');'">获取名称</button>
+                        <!--<button class="btn" th:onclick="'getName(\''+${author.name}+'\');'">获取名称</button>-->
                     </li>
                 </ul>
             </div>
