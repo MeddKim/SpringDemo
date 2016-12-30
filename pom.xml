@@ -7,6 +7,13 @@
   <version>1.0.0</version>
   <name>med-parent</name>
   <url>http://maven.apache.org</url>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.4.3.RELEASE</version>
+  </parent>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -19,5 +26,6 @@
     <module>med.core</module>
     <module>med.web</module>
     <module>med.common</module>
+    <module>med-app</module>
   </modules>
 </project>
