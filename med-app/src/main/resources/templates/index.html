@@ -25,9 +25,9 @@
             <div class="panel-body">
                 <ul class="list-group">
                     <li class="list-group-item" th:each="author:${AuthorList}">
-                        <span th:text=""${author.name}"></span>
-                        <span th:text=""${author.age}"></span>
-                        <!--<button class="btn" th:onclick="'getName(\''+${author.name}+'\');'">获取名称</button>-->
+                        <span th:text="${author.name}"></span>
+                        <span th:text="${author.age}"></span>
+                        <button class="btn" th:onclick="'getName(\''+${author.name}+'\');'">获取名称</button>
                     </li>
                 </ul>
             </div>
@@ -37,12 +37,12 @@
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
 <script th:src="@{bootstrap/js/bootstrap.min.js}"></script>
 <script th:inline="javascript">
-    var single = [[$inglePerson]]
+    var single = [[${singlePerson}]]
 
-//    console.log(single.name+"/"+single.age);
-//    function getName(name) {
-//        console.log(name);
-//    }
+    console.log(single.name+"/"+single.age);
+    function getName(name) {
+        console.log(name);
+    }
 </script>
 </body>
 </html>
