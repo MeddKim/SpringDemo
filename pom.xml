@@ -27,5 +27,6 @@
     <module>med.web</module>
     <module>med.common</module>
     <module>med-app</module>
+    <module>med-security</module>
   </modules>
 </project>
